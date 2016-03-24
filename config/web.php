@@ -18,6 +18,11 @@ $config = [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
         ],
+	    'urlManager' => [
+		    'enablePrettyUrl' => true,
+		    'showScriptName' => false,
+		    'enableStrictParsing' => false,
+	    ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
@@ -38,14 +43,6 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
-        /*
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-            ],
-        ],
-        */
     ],
     'params' => $params,
 ];

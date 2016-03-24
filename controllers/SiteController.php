@@ -11,6 +11,8 @@ use app\models\ContactForm;
 
 class SiteController extends Controller
 {
+	public $defaultAction = 'login';
+
     public function behaviors()
     {
         return [
@@ -60,7 +62,7 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            return $this->redirect('/site/index');
         }
         return $this->render('login', [
             'model' => $model,
