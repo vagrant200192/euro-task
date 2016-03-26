@@ -121,4 +121,23 @@ class InfoController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+	public function actionAddInfo($product_id, $info_id = null)
+	{
+		$rating = Yii::$app->request->post('Rating');
+		$comment = Yii::$app->request->post('Comment');
+		$user_id = Yii::$app->getUser()->id;
+
+		if ($info_id === null) {
+			$model = new Info();
+			$model->addedAttribute($rating, $comment, $product_id, $user_id);
+			$model->save();
+		} else {
+			$model = $this->findModel($info_id);
+			$model->addedAttribute($rating, $comment, $product_id, $user_id);
+			$model->save();
+		}
+
+		$this->redirect('/product/index');
+	}
 }

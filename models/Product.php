@@ -53,4 +53,30 @@ class Product extends \yii\db\ActiveRecord
 				->all();
 		return $result;
 	}
+
+	public static function getProductWithInfo()
+	{
+		$queryAll = new Query();
+		$queryProductWithInfo = new Query();
+
+		$arrayAllProduct = $queryAll->select(['id', 'title'])->from(self::tableName())->all();
+		$arrayProductWithInfo = $queryProductWithInfo->select(['product.id', 'product.title', 'info.id AS info_id', 'info.comment', 'info.rating'])
+				->from(self::tableName())
+				->join('LEFT JOIN', 'info', 'product.id = info.product_id')
+				->where('info.user_id=' . Yii::$app->getUser()->id)->all();
+
+		$auxiliaryArray1 = [$arrayAllProduct, $arrayProductWithInfo];
+		$auxiliaryArray2 = [];
+
+		foreach($auxiliaryArray1 as $key => $arrayProducts){
+			foreach($arrayProducts as $product){
+				$auxiliaryArray2[$key][$product['id']] = $product;
+			}
+		}
+
+		$result = $auxiliaryArray2[1] + $auxiliaryArray2[0];
+		ksort($result);
+
+		return $result;
+	}
 }

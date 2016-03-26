@@ -11,7 +11,7 @@ use app\models\ContactForm;
 
 class SiteController extends Controller
 {
-	public $defaultAction = 'login';
+//	public $defaultAction = 'login';
 
     public function behaviors()
     {

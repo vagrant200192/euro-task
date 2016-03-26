@@ -47,4 +47,12 @@ class Info extends \yii\db\ActiveRecord
             'user_id' => 'User ID',
         ];
     }
+
+	public function addedAttribute($rating, $comment, $product_id, $user_id)
+	{
+		$this->rating = $rating;
+		$this->comment = $comment;
+		$this->product_id = $product_id;
+		$this->user_id = $user_id;
+	}
 }

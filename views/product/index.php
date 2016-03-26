@@ -1,10 +1,9 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $products array */
 
 $this->title = 'Products';
 $this->params['breadcrumbs'][] = $this->title;
@@ -16,15 +15,29 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create Product', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'title',
+	<?php foreach($products as $product): ?>
+	<h3><?= Html::a($product['title'], ['view', 'id' => $product['id']])?></h3>
+		<div class="row">
+			<?= Html::beginForm(['info/add-info', 'product_id' => $product['id'], 'info_id' => $product['info_id']], 'post') ?>
+			<div class="col-md-2">
+				<?= Html::dropDownList('Rating',
+						!empty($product['rating']) ? $product : 0,
+						[
+							0 => 'No rating',
+							1 => 1,
+							2 => 2,
+							3 => 3,
+							4 => 4,
+							5 => 5
+						]) ?>
+			</div>
+			<div class="col-md-10">
+				<?= Html::textarea('Comment', $product['comment'], ['rows' =>'10', 'cols' => '50']); ?>
+			</div>
+			<?= Html::submitButton('Save', ['class' => 'btn btn-lg btn-primary']) ?>
 
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+			<?= Html::endForm() ?>
+		</div>
+	<?php endforeach ?>
 </div>

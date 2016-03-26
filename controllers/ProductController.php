@@ -35,12 +35,10 @@ class ProductController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Product::find(),
-        ]);
+	    $products = Product::getProductWithInfo();
 
         return $this->render('index', [
-            'dataProvider' => $dataProvider,
+            'products' => $products,
         ]);
     }
 
