@@ -1,5 +1,7 @@
 <?php
 
+use yii\helpers\Html;
+
 /** @var $info array */
 
 $summa = 0;
@@ -17,12 +19,12 @@ if (!empty($info)) : ?>
 		<?php if (($infa['rating']!=0) and ($infa['comment']!='')): ?>
 			<div class="row border">
 				<div class="col-md-12">
-					<p>Username: <?= $infa['username'] ?></p>
+					<p>Username: <?= Html::encode($infa['username']); ?></p>
 					<?php if ($infa['rating']!=0): ?>
 						<p>Rating: <?= $infa['rating'] ?></p>
 					<?php endif ?>
 					<?php if ($infa['comment']!=''): ?>
-						<p>Comment: <?= $infa['comment'] ?></p>
+						<p>Comment: <?= Html::encode($infa['comment']); ?></p>
 					<?php endif ?>
 				</div>
 			</div>
