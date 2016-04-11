@@ -55,4 +55,9 @@ class Info extends \yii\db\ActiveRecord
 		$this->product_id = $product_id;
 		$this->user_id = $user_id;
 	}
+
+	public function getUser()
+	{
+		return $this->hasOne(User::className(), ['id' => 'user_id']);
+	}
 }

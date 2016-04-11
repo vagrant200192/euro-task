@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 
 /** @var $info array */
+/** @var $infa app\models\Info */
 
 $summa = 0;
 $numberIsNotNullRating = 0;
@@ -11,20 +12,20 @@ if (!empty($info)) : ?>
 
 	<?php foreach($info as $infa): ?>
 
-		<?php if ($infa['rating']!=0) {
-			$summa+=$infa['rating'];
+		<?php if ($infa->rating != 0) {
+			$summa+=$infa->rating;
 			$numberIsNotNullRating+=1;
 		}?>
 
-		<?php if (($infa['rating']!=0) and ($infa['comment']!='')): ?>
+		<?php if (($infa->rating != 0) or ($infa->comment != '')): ?>
 			<div class="row border">
 				<div class="col-md-12">
-					<p>Username: <?= Html::encode($infa['username']); ?></p>
-					<?php if ($infa['rating']!=0): ?>
-						<p>Rating: <?= $infa['rating'] ?></p>
+					<p>Username: <?= Html::encode($infa->user->username); ?></p>
+					<?php if ($infa->rating!=0): ?>
+						<p>Rating: <?= $infa->rating ?></p>
 					<?php endif ?>
-					<?php if ($infa['comment']!=''): ?>
-						<p>Comment: <?= Html::encode($infa['comment']); ?></p>
+					<?php if ($infa->comment!=''): ?>
+						<p>Comment: <?= Html::encode($infa->comment); ?></p>
 					<?php endif ?>
 				</div>
 			</div>

@@ -3,7 +3,6 @@
 namespace app\models;
 
 use Yii;
-use yii\db\Query;
 
 /**
  * This is the model class for table "product".
@@ -43,40 +42,14 @@ class Product extends \yii\db\ActiveRecord
         ];
     }
 
-	public function findInfo()
+	public function getInfo()
 	{
-		$query = new Query();
-		$result = $query->select(['info.comment', 'info.rating', 'user.username'])
-				->from('info')
-				->join('LEFT JOIN', 'user', 'user.id = info.user_id')
-				->where('product_id=:id', [':id' => $this->id])
-				->all();
-		return $result;
+		return $this->hasMany(Info::className(), ['product_id' => 'id']);
 	}
 
-	public static function getProductWithInfo()
+	public function getInfoUser()
 	{
-		$queryAll = new Query();
-		$queryProductWithInfo = new Query();
-
-		$arrayAllProduct = $queryAll->select(['id', 'title'])->from(self::tableName())->all();
-		$arrayProductWithInfo = $queryProductWithInfo->select(['product.id', 'product.title', 'info.id AS info_id', 'info.comment', 'info.rating'])
-				->from(self::tableName())
-				->join('LEFT JOIN', 'info', 'product.id = info.product_id')
-				->where('info.user_id=' . Yii::$app->getUser()->id)->all();
-
-		$auxiliaryArray1 = [$arrayAllProduct, $arrayProductWithInfo];
-		$auxiliaryArray2 = [];
-
-		foreach($auxiliaryArray1 as $key => $arrayProducts){
-			foreach($arrayProducts as $product){
-				$auxiliaryArray2[$key][$product['id']] = $product;
-			}
-		}
-
-		$result = $auxiliaryArray2[1] + $auxiliaryArray2[0];
-		ksort($result);
-
-		return $result;
+		$query = 'info.user_id=' . Yii::$app->getUser()->id;
+		return $this->getInfo()->where($query)->one();
 	}
 }

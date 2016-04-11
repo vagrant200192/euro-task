@@ -6,8 +6,8 @@ use Yii;
 use app\models\Product;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\data\ActiveDataProvider;
 
 /**
  * ProductController implements the CRUD actions for Product model.
@@ -40,10 +40,12 @@ class ProductController extends Controller
      */
     public function actionIndex()
     {
-	    $products = Product::getProductWithInfo();
+		$dataProvider = new ActiveDataProvider([
+				'query' => Product::find(),
+		]);
 
         return $this->render('index', [
-            'products' => $products,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -55,7 +57,7 @@ class ProductController extends Controller
     public function actionView($id)
     {
 	    $model = $this->findModel($id);
-	    $info = $model->findInfo();
+	    $info = $model->info;
 
         return $this->render('view', [
             'model' => $model,
